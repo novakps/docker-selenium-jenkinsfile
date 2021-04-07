@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.8
 # Copy test project files to the image folder
 COPY . /frontend-integration-tests
 # Make the folder as a working directory
