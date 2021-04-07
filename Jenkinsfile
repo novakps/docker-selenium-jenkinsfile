@@ -1,31 +1,12 @@
 pipeline {
     agent {
-        node {
-            label 'docker' && 'maven'
-        }
+        docker { image 'node:14-alpine' }
     }
-    stages { 	
-        stage('Build Jar') {
+    stages {
+        stage('Test') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh 'node --version'
             }
         }
-        stage('Build Image') {
-            steps {
-                script {
-                	app = docker.build("vinsdocker/containertest")
-                }
-            }
-        }
-        stage('Push Image') {
-            steps {
-                script {
-			        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-			        	app.push("${BUILD_NUMBER}")
-			            app.push("latest")
-			        }
-                }
-            }
-        }        
     }
 }
